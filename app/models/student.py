@@ -16,4 +16,9 @@ class Student(BasePerson):
         data = super().to_dict()
         data["student_id"] = self.student_id
         return data
+        
+    def __str__(self):
+        return f"Student: {self.name} ({self.student_id})"
 
+    def __repr__(self):
+        return f"Student(student_id={self.student_id}, name={self.name})"
