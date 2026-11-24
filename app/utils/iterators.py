@@ -14,3 +14,18 @@ class NumberIterator:
         value = self.numbers[self.index]
         self.index += 1
         return value
+
+
+def number_generator(numbers):
+    for number in numbers:
+        yield number
+
+
+def student_id_generator(start, count):
+    for number in range(start, start + count):
+        yield f"ST{number}"
+
+
+def even_number_generator(limit):
+    for number in range(2, limit + 1, 2):
+        yield number
