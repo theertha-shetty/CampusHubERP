@@ -10,3 +10,8 @@
 2026-11-25 23:18:48,794 - INFO - CampusHubERP application started
 2026-11-25 23:18:48,795 - WARNING - This is a sample warning
 2026-11-25 23:18:48,795 - ERROR - This is a sample error
+2026-11-25 23:30:46,248 - INFO - CampusHubERP test successful
+2026-11-25 23:30:46,248 - ERROR - Test error message
+2026-11-25 23:32:05,831 - INFO - CampusHubERP application started
+2026-11-25 23:32:05,831 - WARNING - This is a sample warning
+2026-11-25 23:32:05,831 - ERROR - This is a sample error

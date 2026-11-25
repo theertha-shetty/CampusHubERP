@@ -1,28 +1,96 @@
+
 import sqlite3
 import json
 import os
 
-connection = sqlite3.connect("campushub.db")
-cursor = connection.cursor()
+DATABASE = "campushub.db"
+DATA_FOLDER = "data"
 
-os.makedirs("data", exist_ok=True)
+TABLES = [
+    "students",
+    "faculty",
+    "courses",
+    "enrollments"
+]
 
-tables = ["students", "faculty", "courses", "enrollments"]
 
-for table in tables:
-    cursor.execute(f"SELECT * FROM {table}")
-    rows = cursor.fetchall()
+def export_data():
+    os.makedirs(DATA_FOLDER, exist_ok=True)
 
-    columns = [description[0] for description in cursor.description]
+    connection = sqlite3.connect(DATABASE)
 
-    records = [
-        dict(zip(columns, row))
-        for row in rows
-    ]
+    try:
+        cursor = connection.cursor()
 
-    with open(f"data/{table}.json", "w") as file:
-        json.dump(records, file, indent=4)
+        for table in TABLES:
+            cursor.execute(f"SELECT * FROM {table}")
 
-    print(f"{table}.json created successfully")
+            columns = [
+                description[0]
+                for description in cursor.description
+            ]
 
-connection.close()
+            records = [
+                dict(zip(columns, row))
+                for row in cursor.fetchall()
+            ]
+
+            with open(
+                f"{DATA_FOLDER}/{table}.json",
+                "w",
+                encoding="utf-8"
+            ) as file:
+                json.dump(records, file, indent=4)
+
+            print(f"{table}.json exported successfully")
+
+    finally:
+        connection.close()
+
+
+def import_data():
+    connection = sqlite3.connect(DATABASE)
+
+    try:
+        cursor = connection.cursor()
+
+        for table in TABLES:
+            file_path = f"{DATA_FOLDER}/{table}.json"
+
+            if not os.path.exists(file_path):
+                print(f"{file_path} not found")
+                continue
+
+            with open(file_path, "r", encoding="utf-8") as file:
+                records = json.load(file)
+
+            for record in records:
+                columns = list(record.keys())
+
+                placeholders = ", ".join(["?"] * len(columns))
+                column_names = ", ".join(columns)
+
+                values = [record[column] for column in columns]
+
+                query = (
+                    f"INSERT OR REPLACE INTO {table} "
+                    f"({column_names}) VALUES ({placeholders})"
+                )
+
+                cursor.execute(query, values)
+
+            print(f"{table}.json imported successfully")
+
+        connection.commit()
+
+    except Exception:
+        connection.rollback()
+        raise
+
+    finally:
+        connection.close()
+
+
+if __name__ == "__main__":
+    export_data()
+    print("\nAll data exported successfully.")

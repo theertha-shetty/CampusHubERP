@@ -8,5 +8,10 @@
         "course_code": "CS102",
         "course_name": "Database Management",
         "credits": 3
+    },
+    {
+        "course_code": "CS999",
+        "course_name": "ORM Testing",
+        "credits": 3
     }
 ]
