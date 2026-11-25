@@ -14,6 +14,16 @@ def create_app(database="campushub.db"):
             "message": "Welcome to CampusHubERP API"
         }), 200
 
+    @app.route("/health", methods=["GET"])
+    def health_check():
+        return jsonify({
+            "status": "healthy",
+            "application": "CampusHubERP"
+        }), 200
+        return jsonify({
+            "message": "Welcome to CampusHubERP API"
+        }), 200
+
     @app.route("/students", methods=["GET"])
     def get_students():
         connection = get_connection()
