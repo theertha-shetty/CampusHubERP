@@ -2,8 +2,7 @@ import re
 
 
 def validate_email(email):
-    pattern = r"^[\w.-]+@[\w.-]+\.\w+$"
-    return bool(re.match(pattern, email))
+    return bool(re.match(r"^[\w.-]+@[\w.-]+\.\w+$", email))
 
 
 def validate_name(name):
@@ -16,3 +15,15 @@ def validate_age(age):
 
 def validate_required(value):
     return value is not None and str(value).strip() != ""
+
+
+def validate_student_id(student_id):
+    return bool(re.match(r"^ST\d{3,}$", str(student_id)))
+
+
+def validate_faculty_id(faculty_id):
+    return bool(re.match(r"^F\d{3,}$", str(faculty_id)))
+
+
+def validate_course_code(course_code):
+    return bool(re.match(r"^[A-Z]{2,4}\d{3,}$", str(course_code)))

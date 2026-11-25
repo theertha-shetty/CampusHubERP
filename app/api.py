@@ -1,10 +1,11 @@
+from app.entity_routes import entity_api
 from flask import Flask, request, jsonify
 import sqlite3
 
 
 def create_app(database="campushub.db"):
     app = Flask(__name__)
-
+    app.register_blueprint(entity_api)
     def get_connection():
         return sqlite3.connect(database)
 
