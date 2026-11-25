@@ -1,0 +1,17 @@
+[
+    {
+        "student_id": 101,
+        "name": "Ananya",
+        "course": "Computer Science"
+    },
+    {
+        "student_id": 102,
+        "name": "Rahul",
+        "course": "Information Technology"
+    },
+    {
+        "student_id": 103,
+        "name": "Priya",
+        "course": "Computer Science"
+    }
+]

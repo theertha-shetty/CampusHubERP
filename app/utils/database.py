@@ -175,3 +175,90 @@ def backup_database(backup_file="campushub_backup.db"):
 
     connection.close()
     print("Database backup created successfully")    
+
+
+def create_all_tables():
+    connection = create_connection()
+    cursor = connection.cursor()
+
+    # Faculty table
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS faculty (
+            faculty_id TEXT PRIMARY KEY,
+            name TEXT NOT NULL,
+            age INTEGER,
+            email TEXT,
+            department TEXT
+        )
+    """)
+
+    # Courses table
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS courses (
+            course_code TEXT PRIMARY KEY,
+            course_name TEXT NOT NULL,
+            credits INTEGER NOT NULL
+        )
+    """)
+
+    # Enrollments table
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS enrollments (
+            student_id TEXT NOT NULL,
+            course_code TEXT NOT NULL,
+            enrollment_date TEXT,
+            status TEXT DEFAULT 'Active',
+            PRIMARY KEY (student_id, course_code)
+        )
+    """)
+
+    connection.commit()
+    connection.close()
+
+    print("All database tables created successfully")
+
+def add_faculty(faculty_id, name, age, email, department):
+    connection = create_connection()
+    cursor = connection.cursor()
+
+    cursor.execute("""
+        INSERT INTO faculty
+        (faculty_id, name, age, email, department)
+        VALUES (?, ?, ?, ?, ?)
+    """, (faculty_id, name, age, email, department))
+
+    connection.commit()
+    connection.close()
+
+    print("Faculty added successfully")
+
+def add_course(course_code, course_name, credits):
+    connection = create_connection()
+    cursor = connection.cursor()
+
+    cursor.execute("""
+        INSERT INTO courses
+        (course_code, course_name, credits)
+        VALUES (?, ?, ?)
+    """, (course_code, course_name, credits))
+
+    connection.commit()
+    connection.close()
+
+    print("Course added successfully")
+
+
+def add_enrollment(student_id, course_code, enrollment_date, status="Active"):
+    connection = create_connection()
+    cursor = connection.cursor()
+
+    cursor.execute("""
+        INSERT INTO enrollments
+        (student_id, course_code, enrollment_date, status)
+        VALUES (?, ?, ?, ?)
+    """, (student_id, course_code, enrollment_date, status))
+
+    connection.commit()
+    connection.close()
+
+    print("Enrollment added successfully")
